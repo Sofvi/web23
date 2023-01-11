@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
 
 const ListItem = ({singleMedia}) => {
   const item = singleMedia;
@@ -18,7 +18,7 @@ const ListItem = ({singleMedia}) => {
 };
 
 ListItem.propTypes = {
-    singleMedia: PropTypes.object,
-  };
+  singleMedia: PropTypes.object,
+};
 
 export default ListItem;
