@@ -4,10 +4,10 @@ import Navigator from './navigators/Navigator';
 
 const App = () => {
   return (
-      <MainProvider>
-       <Navigator></Navigator>
-       <StatusBar style="auto" />
-     </MainProvider>
+    <MainProvider>
+      <Navigator></Navigator>
+      <StatusBar style="auto" />
+    </MainProvider>
   );
 };
 

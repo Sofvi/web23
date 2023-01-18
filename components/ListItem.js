@@ -1,6 +1,7 @@
 import {Image, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
+import WebFont from 'webfontloader';
 
 const ListItem = ({singleMedia, navigation}) => {
   const item = singleMedia;
@@ -25,27 +26,50 @@ const ListItem = ({singleMedia, navigation}) => {
   );
 };
 
+WebFont.load = {
+  google: {
+    families: ['Droid Sans', 'Droid Serif:bold'],
+  },
+};
+
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    backgroundColor: '#ccc',
-    marginBottom: 10,
+    display: 'flex',
+    marginTop: 0,
+    marginRight: 10,
+    marginBottom: 8,
+    marginLeft: 10,
+    height: 150,
+    overflow: 'hidden',
+    borderBottomLeftRadius: 40,
+    borderTopRightRadius: 40,
+    borderRadius: 5,
   },
   box: {
     flex: 1,
     padding: 10,
+    backgroundColor: '#1b4332',
   },
   image: {
     flex: 1,
+    borderBottomLeftRadius: 40,
+    borderRadius: 5,
     minHeight: 100,
   },
   listTitle: {
     fontWeight: 'bold',
-    fontSize: 20,
-    paddingBottom: 15,
+    color: 'white',
+    fontFamily: 'Droid Sans',
+    fontSize: 16,
+    paddingBottom: 5,
+  },
+  description: {
+    color: '#dee2e6',
+    fontSize: 13,
+    fontFamily: 'Droid Sans',
   },
 });
-
 
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
@@ -53,3 +77,4 @@ ListItem.propTypes = {
 };
 
 export default ListItem;
+WebFont;

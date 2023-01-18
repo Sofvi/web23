@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import { StyleSheet } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from '../views/Home';
@@ -62,5 +63,11 @@ const Navigator = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  BiquadFilterNode: {
+    backgroundColor: '#081c15',
+  },
+});
 
 export default Navigator;
