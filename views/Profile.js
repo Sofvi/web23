@@ -1,11 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button} from 'react-native';
 import {MainContext} from '../context/MainContext';
-import {useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
-import {Card, Icon} from '@rneui/themed';
-import {ListItem} from '@rneui/base';
+import {Button, Card, Icon, ListItem} from '@rneui/themed';
 
 const Profile = () => {
   const {getFilesByTag} = useTag();
@@ -27,15 +25,15 @@ const Profile = () => {
 
   return (
     <Card>
-      <Card.Title>Username: {user.username}</Card.Title>
-      <Card.Image source={{uri: uploadsUrl + avatar}}></Card.Image>
+      <Card.Title>{user.username}</Card.Title>
+      <Card.Image source={{uri: uploadsUrl + avatar}} />
       <ListItem>
-        <Icon name='email'></Icon>
-        <ListItem.Title>Email: {user.email}</ListItem.Title>
+        <Icon name="email" />
+        <ListItem.Title>{user.email}</ListItem.Title>
       </ListItem>
       <ListItem>
-        <Icon name='badge'></Icon>
-        <ListItem.Title>Full name: {user.full_name}</ListItem.Title>
+        <Icon name="badge" />
+        <ListItem.Title>{user.full_name}</ListItem.Title>
       </ListItem>
       <Button
         title="Logout!"
