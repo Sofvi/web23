@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -8,15 +8,18 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {MainContext} from '../context/MainContext';
+import { MainContext } from '../context/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import {Button, Text} from '@rneui/base';
 
 const Login = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
+
+  const [toggleForm, setToggleForm] = useState(true);
 
   const checkToken = async () => {
     try {
@@ -46,8 +49,19 @@ const Login = ({navigation}) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
-        <LoginForm />
-        <RegisterForm />
+        {toggleForm ? <LoginForm /> : <RegisterForm />}
+        <Text>
+          {toggleForm
+            ? 'No account yet? Please register.'
+            : 'Already have an accoung? Please login.'}
+        </Text>
+        <Button
+          type="outline"
+          title={toggleForm ? 'Go to register' : 'Go to login'}
+          onPress={() => {
+            setToggleForm(!toggleForm);
+          }}
+        />
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );
@@ -55,10 +69,7 @@ const Login = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 16,
   },
 });
 

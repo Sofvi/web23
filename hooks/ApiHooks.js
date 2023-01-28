@@ -89,7 +89,17 @@ const useUser = () => {
       throw new Error('postUser: ' + error.message);
     }
   };
-  return {getUserByToken, postUser};
+
+  const checkUsername = async (username) => {
+    try {
+      const result = await doFetch(baseUrl + 'users/username/' + username);
+      return result.available;
+    } catch (error) {
+      throw new Error('checkUsername: ' + error.message);
+    }
+  };
+
+  return {getUserByToken, postUser, checkUsername};
 };
 
 const useTag = () => {
@@ -97,10 +107,9 @@ const useTag = () => {
     try {
       return await doFetch(baseUrl + 'tags/' + tag);
     } catch (error) {
-      throw new Error('getFilesByTag', error.message);
+      throw new Error('getFilesByTag, ' + error.message);
     }
   };
-
   return {getFilesByTag};
 };
 

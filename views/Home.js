@@ -1,22 +1,15 @@
 import {StyleSheet, SafeAreaView, Platform} from 'react-native';
+import {ListItem as RNEListItem} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import List from '../components/List';
 
 const Home = ({navigation}) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <RNEListItem>
       <List navigation={navigation} />
-    </SafeAreaView>
+    </RNEListItem>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#081c15',
-    paddingTop: Platform.OS === 'android' ? 30 : 0,
-  },
-});
 
 Home.propTypes = {
   navigation: PropTypes.object,
