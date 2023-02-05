@@ -1,8 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';

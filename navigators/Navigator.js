@@ -1,36 +1,42 @@
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import Home from '../views/Home';
-import Login from '../views/Login';
-import Profile from '../views/Profile';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Home from '../views/Home';
+import Profile from '../views/Profile';
 import Single from '../views/Single';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Login from '../views/Login';
 import {MainContext} from '../context/MainContext';
+import Upload from '../views/Upload';
+import {Icon} from '@rneui/themed';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const TabScreen = () => {
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => {
-        return {
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName;
-            if (route.name === 'Home') {
-              iconName = 'home';
-            } else if (route.name === 'Profile') {
-              iconName = 'person';
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        };
-      }}
-    >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Profile" component={Profile} />
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="home" color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Upload"
+        component={Upload}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
+        }}
+      />
     </Tab.Navigator>
   );
 };

@@ -1,5 +1,6 @@
-import {useEffect, useState} from 'react';
-import {baseUrl} from '../utils/variables';
+import {useContext, useEffect, useState} from 'react';
+import {MainContext} from '../context/MainContext';
+import {appId, baseUrl} from '../utils/variables';
 
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
@@ -15,18 +16,20 @@ const doFetch = async (url, options) => {
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
+  const {update} = useContext(MainContext);
 
   const loadMedia = async () => {
     try {
-      const response = await fetch(baseUrl + 'media');
-      const json = await response.json();
+      //const response = await fetch(baseUrl + 'media');
+      //const json = await response.json();
+      const json = await useTag().getFilesByTag(appId);
+
       const media = await Promise.all(
         json.map(async (file) => {
           const fileResponse = await fetch(baseUrl + 'media/' + file.file_id);
           return await fileResponse.json();
         })
       );
-
       setMediaArray(media);
     } catch (error) {
       console.error('List, loadMedia', error);
@@ -35,9 +38,25 @@ const useMedia = () => {
 
   useEffect(() => {
     loadMedia();
-  }, []);
+  }, [update]);
 
-  return {mediaArray};
+  const postMedia = async (fileData, token) => {
+    const options = {
+      method: 'post',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'multipart/form-data',
+      },
+      body: fileData,
+    };
+    try {
+      return await doFetch(baseUrl + 'media', options);
+    } catch (error) {
+      throw new Error('postUpload: ' + error.message);
+    }
+  };
+
+  return {mediaArray, postMedia};
 };
 
 const useAuthentication = () => {
@@ -110,7 +129,23 @@ const useTag = () => {
       throw new Error('getFilesByTag, ' + error.message);
     }
   };
-  return {getFilesByTag};
+
+  const postTag = async (data, token) => {
+    const options = {
+      method: 'post',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      return await doFetch(baseUrl + 'tags', options);
+    } catch (error) {
+      throw new Error('postTag: ' + error.message);
+    }
+  };
+  return {getFilesByTag, postTag};
 };
 
 export {useMedia, useAuthentication, useUser, useTag};
