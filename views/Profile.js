@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../context/MainContext';
+import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 import {Button, Card, Icon, ListItem} from '@rneui/themed';
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const {getFilesByTag} = useTag();
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
   const [avatar, setAvatar] = useState('');
@@ -48,8 +49,18 @@ const Profile = () => {
           }
         }}
       />
+      <Button
+        title="My Files"
+        onPress={() => {
+          navigation.navigate('MyFiles');
+        }}
+      />
     </Card>
   );
+};
+
+Profile.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default Profile;

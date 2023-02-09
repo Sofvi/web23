@@ -1,4 +1,3 @@
-import {StyleSheet, SafeAreaView, Platform} from 'react-native';
 import {ListItem as RNEListItem} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import List from '../components/List';

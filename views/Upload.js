@@ -1,23 +1,19 @@
 import {Button, Card, Input} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
-import {
-  ActivityIndicator,
-  Alert,
-  Keyboard,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {Alert, Keyboard, ScrollView, TouchableOpacity} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import {useCallback, useContext, useState} from 'react';
+import {useCallback, useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../context/MainContext';
-import {appId} from '../utils/variables';
 import {useFocusEffect} from '@react-navigation/native';
+import {appId} from '../utils/variables';
+import {Video} from 'expo-av';
 
 const Upload = ({navigation}) => {
   const [mediafile, setMediafile] = useState({});
+  const video = useRef(null);
   const [loading, setLoading] = useState(false);
   const {postMedia} = useMedia();
   const {postTag} = useTag();
@@ -67,6 +63,8 @@ const Upload = ({navigation}) => {
             console.log('OK Pressed');
             // update 'update' state in context
             setUpdate(!update);
+            // reset form
+            // reset();
             // TODO: navigate to home
             navigation.navigate('Home');
           },
@@ -93,6 +91,7 @@ const Upload = ({navigation}) => {
 
       if (!result.canceled) {
         setMediafile(result.assets[0]);
+        // validate form
         trigger();
       }
     } catch (error) {
@@ -121,7 +120,16 @@ const Upload = ({navigation}) => {
       <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
         <Card>
           {mediafile.type === 'video' ? (
-            <Card.Title>Video</Card.Title>
+            <Video
+              ref={video}
+              source={{uri: mediafile.uri}}
+              style={{width: '100%', height: 200}}
+              resizeMode="cover"
+              useNativeControls
+              onError={(error) => {
+                console.log(error);
+              }}
+            />
           ) : (
             <Card.Image
               source={{
@@ -136,6 +144,10 @@ const Upload = ({navigation}) => {
               required: {
                 value: true,
                 message: 'is required',
+              },
+              minLength: {
+                value: 3,
+                message: 'Title min length is 3 characters.',
               },
             }}
             render={({field: {onChange, onBlur, value}}) => (
